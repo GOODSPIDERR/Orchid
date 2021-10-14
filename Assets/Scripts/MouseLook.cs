@@ -13,6 +13,8 @@ public class MouseLook : MonoBehaviour
     public LayerMask layerMask;
 
     public GameObject useText;
+
+    public GameObject playerCamera, catCamera, playerUI;
     void Start()
     {
         //Makes sure that the cursor is locked when gamening
@@ -45,12 +47,19 @@ public class MouseLook : MonoBehaviour
             if (hit.transform.CompareTag("Cat"))
             {
                 useText.SetActive(true);
-                Debug.Log(hit.transform.name);
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    playerCamera.SetActive(false);
+                    catCamera.SetActive(true);
+                    playerUI.SetActive(false);
+                }
             }
-        }
-        else
-        {
-            useText.SetActive(false);
+
+            else
+            {
+                useText.SetActive(false);
+            }
         }
     }
 }

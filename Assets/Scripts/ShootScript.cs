@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class ShootScript : MonoBehaviour
 {
-    Transform mainCamera;
+    public Transform mainCamera;
     public GameObject weapon1, weapon2;
     public LayerMask canHit;
     public AudioSource shotSound;
@@ -28,7 +28,6 @@ public class ShootScript : MonoBehaviour
     float maxHitDistance = 2000f;
     void Start()
     {
-        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>();
         animator = GetComponent<Animator>();
     }
 
