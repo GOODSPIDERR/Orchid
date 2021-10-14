@@ -9,6 +9,10 @@ public class MouseLook : MonoBehaviour
     float mouseY = 0f;
 
     public Transform playerBody;
+
+    public LayerMask layerMask;
+
+    public GameObject useText;
     void Start()
     {
         //Makes sure that the cursor is locked when gamening
@@ -31,5 +35,22 @@ public class MouseLook : MonoBehaviour
         //Functions that actually do the rotation
         playerBody.transform.localEulerAngles = new Vector3(0, mouseX, 0);
         transform.localEulerAngles = new Vector3(mouseY, 0f, 0f);
+    }
+
+    void FixedUpdate()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, layerMask))
+        {
+            if (hit.transform.CompareTag("Cat"))
+            {
+                useText.SetActive(true);
+                Debug.Log(hit.transform.name);
+            }
+        }
+        else
+        {
+            useText.SetActive(false);
+        }
     }
 }
