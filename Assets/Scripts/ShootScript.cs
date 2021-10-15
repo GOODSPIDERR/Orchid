@@ -5,6 +5,8 @@ using DG.Tweening;
 
 public class ShootScript : MonoBehaviour
 {
+    //I'm so sorry that declarations are so disorganized
+    //Wait these ones are actually fairly organized. They're not as organized inside other scripts though
     public Transform mainCamera;
     public GameObject weapon1, weapon2;
     public LayerMask canHit;
@@ -35,7 +37,7 @@ public class ShootScript : MonoBehaviour
     {
         if (canShoot)
         {
-            if (Input.GetButton("Fire1"))
+            if (Input.GetButton("Fire1")) //Responsible for everything that happens when you fire
             {
                 //Camera shake
                 mainCamera.localPosition = new Vector3(0, 0.891f, 0);
@@ -72,9 +74,11 @@ public class ShootScript : MonoBehaviour
                     //If it hits an enemy, do damage with its script
                     if (hit.transform.tag == "Enemy")
                     {
+                        //Finds an EnemyScript component in the enemy and do damage to it
                         EnemyScript enemyScript = hit.transform.gameObject.GetComponentInParent<EnemyScript>();
                         enemyScript.TakeDamage(damage);
 
+                        //Finds the collider that it hit, and plays the hit animation depending on the collider it hit
                         HitAnimations hitAnimations = hit.transform.gameObject.GetComponentInParent<HitAnimations>();
                         BoxCollider colliderHit = hit.transform.gameObject.GetComponent<BoxCollider>();
                         hitAnimations.BodyPartHit(colliderHit);
@@ -85,7 +89,7 @@ public class ShootScript : MonoBehaviour
 
         }
 
-        if (canSwitch) //Weapon switching
+        if (canSwitch) //Weapon switching (btw if you're better with the new input system, we should switch to the new input system. I can't be asked to learn it rn, but from what I've seen it seems a lot better than the old one ok rant over)
         {
             if (Input.GetButtonDown("Weapon1"))
             {

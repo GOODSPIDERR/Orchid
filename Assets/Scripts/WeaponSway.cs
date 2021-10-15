@@ -16,6 +16,7 @@ public class WeaponSway : MonoBehaviour
 
     void Update()
     {
+        //I think I stole this from a YouTube tutorial. Works nicely though. Just make sure you don't attach this script to the same object as the SineSway.cs, or else fucky wucky will happen
         float movementX = -Input.GetAxisRaw("Mouse X") * amount;
         float movementY = -Input.GetAxisRaw("Mouse Y") * amount;
 

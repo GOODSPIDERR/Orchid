@@ -13,15 +13,11 @@ public class DeadEnemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody>();
 
+        //Adds a force to the dead enemy 
         Vector3 direction = (player.position - transform.position).normalized;
         rb.AddForce(-direction * 5f, ForceMode.Impulse);
 
-        StartCoroutine("Death");
-    }
-
-    void Update()
-    {
-
+        Death();
     }
 
     IEnumerator Death()

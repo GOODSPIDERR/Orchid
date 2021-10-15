@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//I'm a fucking legend for getting this to work, despite the fact that there's probably a much smoother and simpler solution to this. Whatever, I'm fucking proud
+
 public class SineSway : MonoBehaviour
 {
     float index;
@@ -18,6 +20,9 @@ public class SineSway : MonoBehaviour
     [Header("Rotation Offsets")]
     public Quaternion rotationOffsetPlus;
     public Quaternion rotationOffsetMinus;
+
+    //I won't even begin to explain this. I want to forget I wrote it
+
     void Start()
     {
         //Multiplies the current offset in case I want to change values quickly

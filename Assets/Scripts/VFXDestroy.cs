@@ -13,10 +13,8 @@ public class VFXDestroy : MonoBehaviour
 
     void Update()
     {
-        //The effect will self-destruct prematurely without this line
-        if (vfx.aliveParticleCount != 0) itStarted = true;
+        if (vfx.aliveParticleCount != 0) itStarted = true; //The effect will self-destruct prematurely without this line
 
-        //If no particles are left alive, destroy the object
-        if (vfx.aliveParticleCount == 0 && itStarted) Object.Destroy(gameObject);
+        if (vfx.aliveParticleCount == 0 && itStarted) Object.Destroy(gameObject); //If no particles are left alive, destroy the object
     }
 }

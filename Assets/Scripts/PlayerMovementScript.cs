@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class PlayerMovementScript : MonoBehaviour
 {
     CharacterController controller;
@@ -39,26 +38,28 @@ public class PlayerMovementScript : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
 
-        if (x == 0f)
+        Vector2 movementVector = new Vector2(x, z).normalized;
+
+        //Makeshift deceleration solution. There must be a more efficient solution
+        if (x == 0f) //Decelerate if not moving X
         {
             velocityX *= acceleration;
         }
-
-
-        if (z == 0f)
+        if (z == 0f) //Decelerate if not moving Z
         {
             velocityZ *= acceleration;
         }
 
-        velocityX += x * acceleration;
-        velocityZ += z * acceleration;
+        //I decided to slightly rework how movement is calculated. Looks janky, but feels better
+        velocityX += movementVector.x * acceleration;
+        velocityZ += movementVector.y * acceleration;
 
         velocityX = Mathf.Clamp(velocityX, -moveSpeed, moveSpeed);
         velocityZ = Mathf.Clamp(velocityZ, -moveSpeed, moveSpeed);
 
         move = transform.right * velocityX + transform.forward * velocityZ;
 
-        controller.Move(move * Time.deltaTime);
+        controller.Move(move * Time.deltaTime); //I'm a fucking god
 
         //Jumping
         if (Input.GetButtonDown("Jump") && isGrounded)
@@ -66,7 +67,7 @@ public class PlayerMovementScript : MonoBehaviour
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         }
 
-
+        //Gravity
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }

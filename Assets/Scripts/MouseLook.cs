@@ -37,14 +37,13 @@ public class MouseLook : MonoBehaviour
         //Functions that actually do the rotation
         playerBody.transform.localEulerAngles = new Vector3(0, mouseX, 0);
         transform.localEulerAngles = new Vector3(mouseY, 0f, 0f);
-    }
 
-    void FixedUpdate()
-    {
+        //Raycast for the Use key (E)
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, layerMask))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f, layerMask))
         {
-            if (hit.transform.CompareTag("Cat"))
+            Debug.Log(hit.transform.name);
+            if (hit.transform.CompareTag("Cat")) //If you're looking at the cat, give the player an option to talk to him
             {
                 useText.SetActive(true);
 
@@ -56,10 +55,18 @@ public class MouseLook : MonoBehaviour
                 }
             }
 
-            else
+            else //If you're looking at something that's not the cat, disable the use text
             {
                 useText.SetActive(false);
             }
+
+
+        }
+        else //If you're not looking at anything, disable the use text
+        {
+            useText.SetActive(false);
         }
     }
+
+
 }
