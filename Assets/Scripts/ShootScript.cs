@@ -72,8 +72,12 @@ public class ShootScript : MonoBehaviour
                     //If it hits an enemy, do damage with its script
                     if (hit.transform.tag == "Enemy")
                     {
-                        EnemyScript enemyScript = hit.transform.gameObject.GetComponent<EnemyScript>();
+                        EnemyScript enemyScript = hit.transform.gameObject.GetComponentInParent<EnemyScript>();
                         enemyScript.TakeDamage(damage);
+
+                        HitAnimations hitAnimations = hit.transform.gameObject.GetComponentInParent<HitAnimations>();
+                        BoxCollider colliderHit = hit.transform.gameObject.GetComponent<BoxCollider>();
+                        hitAnimations.BodyPartHit(colliderHit);
                     }
                 }
             }
