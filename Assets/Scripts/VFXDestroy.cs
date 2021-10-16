@@ -6,12 +6,12 @@ public class VFXDestroy : MonoBehaviour
 {
     private VisualEffect vfx;
     private bool itStarted = false;
-    void Start()
+    private void Start()
     {
         vfx = GetComponent<VisualEffect>();
     }
 
-    void Update()
+    private void Update()
     {
         if (vfx.aliveParticleCount != 0) itStarted = true; //The effect will self-destruct prematurely without this line
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 732609897}
-  m_IndirectSpecularColor: {r: 0.056740236, g: 0.025412235, b: 0.09048474, a: 1}
+  m_IndirectSpecularColor: {r: 0.10234297, g: 0.039876796, b: 0.068672806, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -648,8 +648,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   move: {x: 0, y: 0, z: 0}
   moveSpeed: 7
-  acceleration: 0.35
-  speed: 5
+  acceleration: 0.15
   gravity: -19.62
   jumpHeight: 2
   groundCheck: {fileID: 1790917235}
@@ -3695,6 +3694,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bf7851d1ce2fdc3439fb216784e98b60, type: 3}
   m_PrefabInstance: {fileID: 1536185311}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1536185316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536185312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a2a8ea2367541447a8b24ff72f356d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraCat: {fileID: 439477216}
+  cameraPlayer: {fileID: 1470367494}
+  ui: {fileID: 491380979}
 --- !u!1 &1623446779 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 856002807916616872, guid: 495455cbce5d8af4c8b7fb92a4327b5b, type: 3}

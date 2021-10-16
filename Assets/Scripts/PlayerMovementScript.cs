@@ -1,29 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 public class PlayerMovementScript : MonoBehaviour
 {
-    CharacterController controller;
+    private CharacterController controller;
     [HideInInspector]
     public Vector3 move;
     public float moveSpeed = 8f;
     public float acceleration = 8f;
-    public float speed = 12f;
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
     public Transform groundCheck;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
-    float velocityX, velocityZ;
+    private float velocityX, velocityZ;
 
-    Vector3 velocity;
-    bool isGrounded;
+    private Vector3 velocity;
+    private bool isGrounded;
     private void Start()
     {
         //Getter
         controller = GetComponent<CharacterController>();
     }
-    void Update()
+
+    private void Update()
     {
         //Ground check
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -35,10 +36,10 @@ public class PlayerMovementScript : MonoBehaviour
         }
 
         //Moving
-        float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxisRaw("Vertical");
+        var x = Input.GetAxisRaw("Horizontal");
+        var z = Input.GetAxisRaw("Vertical");
 
-        Vector2 movementVector = new Vector2(x, z).normalized;
+        var movementVector = new Vector2(x, z).normalized;
 
         //Makeshift deceleration solution. There must be a more efficient solution
         if (x == 0f) //Decelerate if not moving X
@@ -57,7 +58,8 @@ public class PlayerMovementScript : MonoBehaviour
         velocityX = Mathf.Clamp(velocityX, -moveSpeed, moveSpeed);
         velocityZ = Mathf.Clamp(velocityZ, -moveSpeed, moveSpeed);
 
-        move = transform.right * velocityX + transform.forward * velocityZ;
+        var transform1 = transform;
+        move = transform1.right * velocityX + transform1.forward * velocityZ;
 
         controller.Move(move * Time.deltaTime); //I'm a fucking god
 

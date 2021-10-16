@@ -26,9 +26,11 @@ public class ShootScript : MonoBehaviour
     [Header("Bools for the animator")]
     public bool canShoot = false;
     public bool canSwitch = false;
-    Animator animator;
-    float maxHitDistance = 2000f;
-    void Start()
+    private Animator animator;
+    private static readonly int Shoot = Animator.StringToHash("Shoot");
+    private const float MAXHitDistance = 2000f;
+
+    private void Start()
     {
         animator = GetComponent<Animator>();
     }
@@ -54,33 +56,32 @@ public class ShootScript : MonoBehaviour
                 shotSound.Play();
 
                 //Sets off the animation trigger
-                animator.SetTrigger("Shoot");
+                animator.SetTrigger(Shoot);
 
                 //Finds where the bullet lands
-                RaycastHit hit;
-                if (Physics.Raycast(mainCamera.position, mainCamera.TransformDirection(Vector3.forward), out hit, maxHitDistance, canHit))
+                if (Physics.Raycast(mainCamera.position, mainCamera.TransformDirection(Vector3.forward), out var hit, MAXHitDistance, canHit))
                 {
                     //If the thing you hit happens to have a rigidbody, applies a force in the direction you're facing
                     if (hit.transform.gameObject.GetComponent<Rigidbody>() != null)
                     {
-                        Rigidbody rb = hit.transform.gameObject.GetComponent<Rigidbody>();
-                        Vector3 direction = (transform.position - hit.transform.position).normalized;
+                        var rb = hit.transform.gameObject.GetComponent<Rigidbody>();
+                        var direction = (transform.position - hit.transform.position).normalized;
                         rb.AddForce(-direction * knockback, ForceMode.Impulse);
                     }
                     //Creates the burst VFX
-                    GameObject vfx = Instantiate(impactVFX, hit.point, Quaternion.LookRotation(hit.normal, Vector3.back));
+                    var vfx = Instantiate(impactVFX, hit.point, Quaternion.LookRotation(hit.normal, Vector3.back));
                     vfx.transform.parent = hit.transform;
 
                     //If it hits an enemy, do damage with its script
-                    if (hit.transform.tag == "Enemy")
+                    if (hit.transform.CompareTag("Enemy"))
                     {
                         //Finds an EnemyScript component in the enemy and do damage to it
-                        EnemyScript enemyScript = hit.transform.gameObject.GetComponentInParent<EnemyScript>();
+                        var enemyScript = hit.transform.gameObject.GetComponentInParent<EnemyScript>();
                         enemyScript.TakeDamage(damage);
 
                         //Finds the collider that it hit, and plays the hit animation depending on the collider it hit
-                        HitAnimations hitAnimations = hit.transform.gameObject.GetComponentInParent<HitAnimations>();
-                        BoxCollider colliderHit = hit.transform.gameObject.GetComponent<BoxCollider>();
+                        var hitAnimations = hit.transform.gameObject.GetComponentInParent<HitAnimations>();
+                        var colliderHit = hit.transform.gameObject.GetComponent<BoxCollider>();
                         hitAnimations.BodyPartHit(colliderHit);
                     }
                 }
@@ -98,11 +99,9 @@ public class ShootScript : MonoBehaviour
 
             }
 
-            if (Input.GetButtonDown("Weapon2"))
-            {
-                weapon1.SetActive(false);
-                weapon2.SetActive(true);
-            }
+            if (!Input.GetButtonDown("Weapon2")) return;
+            weapon1.SetActive(false);
+            weapon2.SetActive(true);
         }
 
 

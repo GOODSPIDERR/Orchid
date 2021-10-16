@@ -10,10 +10,9 @@ public class EnemyScript : MonoBehaviour
     public void TakeDamage(float damage) //This is run whenever damage is taken
     {
         hp -= damage;
-        if (hp <= 0) //If hp reaches 0, kaput
-        {
-            Instantiate(deadObject, transform.position, transform.rotation);
-            Destroy(gameObject);
-        }
+        if (!(hp <= 0)) return;
+        var transform1 = transform;
+        Instantiate(deadObject, transform1.position, transform1.rotation);
+        Destroy(gameObject);
     }
 }

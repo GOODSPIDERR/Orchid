@@ -6,7 +6,7 @@ public class MouseLook : MonoBehaviour
 {
     public float mouseSensitivity = 1f;
 
-    float mouseY = 0f;
+    private float mouseY = 0f;
 
     public Transform playerBody;
 
@@ -15,18 +15,20 @@ public class MouseLook : MonoBehaviour
     public GameObject useText;
 
     public GameObject playerCamera, catCamera, playerUI;
-    void Start()
+
+    private void Start()
     {
         //Makes sure that the cursor is locked when gamening
         Cursor.lockState = CursorLockMode.Locked;
     }
-    void Update()
+
+    private void Update()
     {
         //Finding the mouse input
         //float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         //float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        float mouseX = playerBody.transform.localEulerAngles.y + Input.GetAxisRaw("Mouse X") * mouseSensitivity;
+        var mouseX = playerBody.transform.localEulerAngles.y + Input.GetAxisRaw("Mouse X") * mouseSensitivity;
         mouseY -= Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
 
         //Sets the new x rotation and makes sure it's clamped between -90 and 90
@@ -39,20 +41,17 @@ public class MouseLook : MonoBehaviour
         transform.localEulerAngles = new Vector3(mouseY, 0f, 0f);
 
         //Raycast for the Use key (E)
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f, layerMask))
+        if (Physics.Raycast(transform.position, transform.forward, out var hit, 2f, layerMask))
         {
             Debug.Log(hit.transform.name);
             if (hit.transform.CompareTag("Cat")) //If you're looking at the cat, give the player an option to talk to him
             {
                 useText.SetActive(true);
 
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    playerCamera.SetActive(false);
-                    catCamera.SetActive(true);
-                    playerUI.SetActive(false);
-                }
+                if (!Input.GetKeyDown(KeyCode.E)) return;
+                playerCamera.SetActive(false);
+                catCamera.SetActive(true);
+                playerUI.SetActive(false);
             }
 
             else //If you're looking at something that's not the cat, disable the use text

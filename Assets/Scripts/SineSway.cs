@@ -6,14 +6,14 @@ using UnityEngine;
 
 public class SineSway : MonoBehaviour
 {
-    float index;
+    private float index;
     public PlayerMovementScript playerMovementScript;
     private float currentSpeed;
-    Vector3 originalPosition;
-    Quaternion originalRotation;
+    private Vector3 originalPosition;
+    private Quaternion originalRotation;
     public float speedMultiplier = 1f, distanceMultiplier = 1f;
-    Vector3 newPositionPlus, newPositionMinus;
-    Quaternion newRotationPlus, newRotationMinus;
+    private Vector3 newPositionPlus, newPositionMinus;
+    private Quaternion newRotationPlus, newRotationMinus;
     [Header("Position Offsets")]
     public Vector3 positionOffsetPlus = new Vector3(0.1f, 0.05f, 0.05f);
     public Vector3 positionOffsetMinus = new Vector3(-0.1f, 0.05f, 0.05f);
@@ -23,15 +23,16 @@ public class SineSway : MonoBehaviour
 
     //I won't even begin to explain this. I want to forget I wrote it
 
-    void Start()
+    private void Start()
     {
         //Multiplies the current offset in case I want to change values quickly
         positionOffsetPlus *= distanceMultiplier;
         positionOffsetMinus *= distanceMultiplier;
 
         //Finds the initial transforms
-        originalPosition = transform.localPosition;
-        originalRotation = transform.localRotation;
+        var transform1 = transform;
+        originalPosition = transform1.localPosition;
+        originalRotation = transform1.localRotation;
 
         //It DOESN'T have to calculate the new final position every frame
         newPositionPlus = new Vector3(originalPosition.x + positionOffsetPlus.x, originalPosition.y + positionOffsetPlus.y, originalPosition.z + positionOffsetPlus.z);
@@ -61,15 +62,8 @@ public class SineSway : MonoBehaviour
         //Return to default position when you stop moving
         if (currentSpeed <= 0.25f)
         {
-            float i = 0f;
-            if (index < Mathf.PI)
-            {
-                index = Mathf.Lerp(index, 0f, i + Time.deltaTime * speedMultiplier);
-            }
-            else
-            {
-                index = Mathf.Lerp(index, Mathf.PI, i + Time.deltaTime * speedMultiplier);
-            }
+            var i = 0f;
+            index = Mathf.Lerp(index, index < Mathf.PI ? 0f : Mathf.PI, i + Time.deltaTime * speedMultiplier);
         }
 
         //First lerp for the negative transformations
@@ -80,16 +74,16 @@ public class SineSway : MonoBehaviour
             float newPositionY = Mathf.Lerp(originalPosition.y, newPositionMinus.y, Mathf.Sqrt(Mathf.Abs(Sinq())));
             float newPositionZ = Mathf.Lerp(originalPosition.z, newPositionMinus.z, Mathf.Sqrt(Mathf.Abs(Sinq())));
 
-            transform.localPosition = new Vector3(newPositionX, newPositionY, newPositionZ);
-
             //Rotation transforms
             float newRotationX = Mathf.Lerp(originalRotation.x, newRotationMinus.x, Mathf.Sqrt(Mathf.Abs(Sinq())));
             float newRotationY = Mathf.Lerp(originalRotation.y, newRotationMinus.y, Mathf.Sqrt(Mathf.Abs(Sinq())));
             float newRotationZ = Mathf.Lerp(originalRotation.z, newRotationMinus.z, Mathf.Sqrt(Mathf.Abs(Sinq())));
             float newRotationW = Mathf.Lerp(originalRotation.w, newRotationMinus.w, Mathf.Sqrt(Mathf.Abs(Sinq())));
 
-            transform.localPosition = new Vector3(newPositionX, newPositionY, newPositionZ);
-            transform.localRotation = new Quaternion(newRotationX, newRotationY, newRotationZ, newRotationW);
+            var localPosition = new Vector3(newPositionX, newPositionY, newPositionZ);
+            var transform1 = transform;
+            transform1.localPosition = localPosition;
+            transform1.localRotation = new Quaternion(newRotationX, newRotationY, newRotationZ, newRotationW);
         }
 
         //Second lerp for the positive transformations
@@ -100,16 +94,16 @@ public class SineSway : MonoBehaviour
             float newPositionY = Mathf.Lerp(originalPosition.y, newPositionPlus.y, Mathf.Sqrt(Mathf.Abs(Sinq())));
             float newPositionZ = Mathf.Lerp(originalPosition.z, newPositionPlus.z, Mathf.Sqrt(Mathf.Abs(Sinq())));
 
-            transform.localPosition = new Vector3(newPositionX, newPositionY, newPositionZ);
-
             //Rotation transforms
-            float newRotationX = Mathf.Lerp(originalRotation.x, newRotationPlus.x, Mathf.Sqrt(Mathf.Abs(Sinq())));
-            float newRotationY = Mathf.Lerp(originalRotation.y, newRotationPlus.y, Mathf.Sqrt(Mathf.Abs(Sinq())));
-            float newRotationZ = Mathf.Lerp(originalRotation.z, newRotationPlus.z, Mathf.Sqrt(Mathf.Abs(Sinq())));
-            float newRotationW = Mathf.Lerp(originalRotation.w, newRotationPlus.w, Mathf.Sqrt(Mathf.Abs(Sinq())));
+            var newRotationX = Mathf.Lerp(originalRotation.x, newRotationPlus.x, Mathf.Sqrt(Mathf.Abs(Sinq())));
+            var newRotationY = Mathf.Lerp(originalRotation.y, newRotationPlus.y, Mathf.Sqrt(Mathf.Abs(Sinq())));
+            var newRotationZ = Mathf.Lerp(originalRotation.z, newRotationPlus.z, Mathf.Sqrt(Mathf.Abs(Sinq())));
+            var newRotationW = Mathf.Lerp(originalRotation.w, newRotationPlus.w, Mathf.Sqrt(Mathf.Abs(Sinq())));
 
-            transform.localPosition = new Vector3(newPositionX, newPositionY, newPositionZ);
-            transform.localRotation = new Quaternion(newRotationX, newRotationY, newRotationZ, newRotationW);
+            var localPosition = new Vector3(newPositionX, newPositionY, newPositionZ);
+            var transform1 = transform;
+            transform1.localPosition = localPosition;
+            transform1.localRotation = new Quaternion(newRotationX, newRotationY, newRotationZ, newRotationW);
 
         }
     }
