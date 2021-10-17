@@ -18,6 +18,7 @@ public class PlayerMovementScript : MonoBehaviour
 
     private Vector3 velocity;
     private bool isGrounded;
+    public bool redKey, greenKey, yellowKey;
     private void Start()
     {
         //Getter
