@@ -253,7 +253,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &33980276
 Transform:
   m_ObjectHideFlags: 0
@@ -716,7 +716,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &350201930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4485,8 +4485,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1439700258}
-  m_LocalRotation: {x: 0, y: 0.70710677, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -9.2647705, y: 11.020974, z: -2.2763262}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.19999981, y: 2.079, z: -6.8999996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -5058,7 +5058,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!145 &1574344404
 SpringJoint:
   m_ObjectHideFlags: 0
@@ -5070,7 +5070,7 @@ SpringJoint:
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: -5.2200003, z: 0}
+  m_ConnectedAnchor: {x: -0.000017166138, y: -5.220026, z: 0}
   serializedVersion: 2
   m_Spring: 1000
   m_Damper: 1
@@ -5658,8 +5658,8 @@ MonoBehaviour:
   impactVFX: {fileID: 4829897688918431338, guid: 30351f8dbcb66724fba28801b8a9a518, type: 3}
   muzzleFlashSpot: {fileID: 1933910367}
   muzzleFlashObject: {fileID: 833436421769514329, guid: 06db763e79ac72046b2334a747078ad3, type: 3}
-  shakeDuration: 0.2
-  shakeStrength: {x: 0.2, y: 0.2, z: 0}
+  shakeDuration: 0.1
+  shakeStrength: {x: 0.1, y: 0.1, z: 0}
   shakeFrequency: 20
   shakeRandomness: 10
 --- !u!95 &1821937047
@@ -5697,7 +5697,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1835919916
 Transform:
   m_ObjectHideFlags: 0
@@ -6035,8 +6035,8 @@ MonoBehaviour:
   impactVFX: {fileID: 7949348694585260507, guid: 0f13beae11bd09347a6a414dad85c803, type: 3}
   muzzleFlashSpot: {fileID: 573089813}
   muzzleFlashObject: {fileID: 4330395939816424159, guid: 9ad2c98da7132584983b489a64da9b49, type: 3}
-  shakeDuration: 0.5
-  shakeStrength: {x: 1, y: 1, z: 0}
+  shakeDuration: 0.2
+  shakeStrength: {x: 0.8, y: 0.8, z: 0}
   shakeFrequency: 30
   shakeRandomness: 20
 --- !u!114 &1983865513
