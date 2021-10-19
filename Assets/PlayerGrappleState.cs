@@ -67,6 +67,7 @@ public class PlayerGrappleState : PlayerBaseState
             joint.maxDistance = 9999f;
             joint.spring = 0f;
             rb.velocity *= 2;
+            joint.damper = 0f;
             player.grappled = false;
             player.SwitchState(player.FlyState);
         }
@@ -76,8 +77,9 @@ public class PlayerGrappleState : PlayerBaseState
             joint.connectedBody = null;
             joint.maxDistance = 9999f;
             joint.spring = 0f;
-            rb.velocity = new Vector3(rb.velocity.x*2, 0, rb.velocity.z*2);
-            rb.AddForce(Vector3.up * 16f + transform.forward * 8f, ForceMode.VelocityChange);
+            joint.damper = 0f;
+            //rb.velocity = new Vector3(rb.velocity.x*2, 0, rb.velocity.z*2);
+            rb.AddForce(Vector3.up * 12f + transform.forward * 6f, ForceMode.VelocityChange);
             player.grappled = false;
             player.SwitchState(player.FlyState);
         }

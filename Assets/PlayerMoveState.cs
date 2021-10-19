@@ -76,8 +76,9 @@ public class PlayerMoveState : PlayerBaseState
                 joint.connectedBody = null;
                 joint.maxDistance = 9999f;
                 joint.spring = 0f;
-                rb.velocity = new Vector3(0, 0, 0);
-                rb.AddForce(Vector3.up * 16f + playerTransform.forward * 8f, ForceMode.VelocityChange);
+                joint.damper = 0f;
+                //rb.velocity = new Vector3(0, 0, 0);
+                rb.AddForce(Vector3.up * 12f + playerTransform.forward * 6f, ForceMode.VelocityChange);
                 
                 player.grappled = false;
                 player.SwitchState(player.FlyState);
