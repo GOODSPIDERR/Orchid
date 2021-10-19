@@ -18,7 +18,6 @@ public class MouseLook : MonoBehaviour
 
     private void Update()
     {
-        //Testes
         //Finding the mouse input
         //float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         //float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
