@@ -1,52 +1,74 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Rendering.Universal;
+using Random = UnityEngine.Random;
 
 public class ShootScript : MonoBehaviour
 {
     //I'm so sorry that declarations are so disorganized
     //Wait these ones are actually fairly organized. They're not as organized inside other scripts though
     public Transform mainCamera;
-    public GameObject weapon1, weapon2;
     public LayerMask canHit;
     public AudioSource shotSound;
     public float damage = 1f;
+    public float cooldown;
+    private float cooldownTimer;
+    
     [Header("Muzzle Flash and Impact")]
     [Range(0.0f, 50.0f)]
     public float knockback = 0f;
     public GameObject impactVFX;
     public Transform muzzleFlashSpot;
     public GameObject muzzleFlashObject;
+    
     [Header("Screenshake Options")]
     public float shakeDuration = 0f;
     public Vector3 shakeStrength = new Vector3(0, 0, 0);
     public int shakeFrequency = 0;
     public float shakeRandomness = 0f;
-    [Header("Bools for the animator")]
-    public bool canShoot = false;
-    public bool canSwitch = false;
+    
+
+    private bool canShoot = false;
     private Animator animator;
     private static readonly int Shoot = Animator.StringToHash("Shoot");
     private const float MAXHitDistance = 2000f;
 
-    private void Start()
+
+
+
+    private void Awake()
     {
         animator = GetComponent<Animator>();
     }
 
-    void Update()
+    private void OnEnable()
     {
+        cooldownTimer = cooldown;
+    }
+
+    private void Update()
+    {
+        cooldownTimer -= Time.deltaTime;
+        
+        canShoot = cooldownTimer < 0f;
+        
         if (canShoot)
         {
             if (Input.GetButton("Fire1")) //Responsible for everything that happens when you fire
             {
+                cooldownTimer = cooldown;
+                
                 //Camera shake
                 mainCamera.localPosition = new Vector3(0, 0.891f, 0);
-                Sequence shakeSequence = DOTween.Sequence();
+                var shakeSequence = DOTween.Sequence();
                 shakeSequence.Append(mainCamera.DOShakePosition(shakeDuration, shakeStrength, shakeFrequency, shakeRandomness, false, true));
                 shakeSequence.Append(mainCamera.DOLocalMove(new Vector3(0, 0.891f, 0), 0.4f));
-                shakeSequence.Play();
+
+                if (shakeSequence.IsPlaying()) shakeSequence.Restart();
+                else shakeSequence.Play();
 
                 //Creates the muzzle flash
                 Instantiate(muzzleFlashObject, muzzleFlashSpot);
@@ -89,20 +111,9 @@ public class ShootScript : MonoBehaviour
 
 
         }
+        
+        
 
-        if (canSwitch) //Weapon switching (btw if you're better with the new input system, we should switch to the new input system. I can't be asked to learn it rn, but from what I've seen it seems a lot better than the old one ok rant over)
-        {
-            if (Input.GetButtonDown("Weapon1"))
-            {
-                weapon1.SetActive(true);
-                weapon2.SetActive(false);
-
-            }
-
-            if (!Input.GetButtonDown("Weapon2")) return;
-            weapon1.SetActive(false);
-            weapon2.SetActive(true);
-        }
 
 
     }

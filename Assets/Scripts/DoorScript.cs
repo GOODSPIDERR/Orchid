@@ -30,6 +30,13 @@ private void Awake()
         };
     }
 
+    public void Disintegrate()
+    {
+        Destroy(gameObject);
+        //There will be a cool disintegration animation for this later. For now, it's just objectus deletus
+    }
+
+    /* Old door system (inefficient and poopy)
     private void OnTriggerEnter(Collider other)
     {
         switch (doorColor)
@@ -56,6 +63,6 @@ private void Awake()
                 }
                 break;
         }
-        
     }
+    */
 }

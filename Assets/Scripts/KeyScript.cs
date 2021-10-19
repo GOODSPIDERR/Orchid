@@ -12,7 +12,7 @@ public enum KeyColor
 }
 public class KeyScript : MonoBehaviour
 {
-public PlayerMovementScript playerMovement;
+public InteractManager interactManager;
 
 public float rotationRate = 1f;
 public float yOffset = 1f;
@@ -59,13 +59,13 @@ private void Awake()
         switch (selectedColor)
         {
             case KeyColor.Red:
-                playerMovement.redKey = true;
+                interactManager.redKey = true;
                 break;
             case KeyColor.Green:
-                playerMovement.greenKey = true;
+                interactManager.greenKey = true;
                 break;
             case KeyColor.Yellow:
-                playerMovement.yellowKey = true;
+                interactManager.yellowKey = true;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

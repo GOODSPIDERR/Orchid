@@ -7,8 +7,11 @@ public class PlayerMovementScript : MonoBehaviour
     private CharacterController controller;
     [HideInInspector]
     public Vector3 move;
+    
+    [Header("Movement Stuff")]
     public float moveSpeed = 8f;
     public float acceleration = 8f;
+    [Header("Jumping & Gravity Stuff")]
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
     public Transform groundCheck;
@@ -18,8 +21,10 @@ public class PlayerMovementScript : MonoBehaviour
 
     private Vector3 velocity;
     private bool isGrounded;
-    public bool redKey, greenKey, yellowKey;
-    private void Start()
+    
+
+    
+    private void Awake()
     {
         //Getter
         controller = GetComponent<CharacterController>();
@@ -45,11 +50,11 @@ public class PlayerMovementScript : MonoBehaviour
         //Makeshift deceleration solution. There must be a more efficient solution
         if (x == 0f) //Decelerate if not moving X
         {
-            velocityX *= acceleration;
+            velocityX *= 0.92f;
         }
         if (z == 0f) //Decelerate if not moving Z
         {
-            velocityZ *= acceleration;
+            velocityZ *= 0.92f;
         }
 
         //I decided to slightly rework how movement is calculated. Looks janky, but feels better
