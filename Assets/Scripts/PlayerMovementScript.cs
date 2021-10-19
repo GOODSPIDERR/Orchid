@@ -1,16 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 public class PlayerMovementScript : MonoBehaviour
 {
-    private CharacterController controller;
+    [HideInInspector]
+    public CharacterController controller;
     [HideInInspector]
     public Vector3 move;
+
+    [HideInInspector] public CapsuleCollider capsuleCollider;
+
+    //[HideInInspector] 
+    public bool grappled = false;
     
     [Header("Movement Stuff")]
     public float moveSpeed = 8f;
     public float acceleration = 8f;
+    
     [Header("Jumping & Gravity Stuff")]
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
@@ -19,64 +27,57 @@ public class PlayerMovementScript : MonoBehaviour
     public LayerMask groundMask;
     private float velocityX, velocityZ;
 
-    private Vector3 velocity;
-    private bool isGrounded;
+    [HideInInspector]
+    public Vector3 velocity;
+    public bool isGrounded;
     
+    public float swingForce = 500f;
 
+    [HideInInspector]
+    public Rigidbody rb;
+    [HideInInspector]
+    public Rigidbody oRb;
+
+    PlayerBaseState currentState;
+    public PlayerMoveState MoveState = new PlayerMoveState();
+    public PlayerGrappleState GrappleState = new PlayerGrappleState();
+    public PlayerFlyState FlyState = new PlayerFlyState();
+    public PlayerCutsceneState CutsceneState = new PlayerCutsceneState();
+
+    [HideInInspector]
+    public LineRenderer lineRenderer;
     
     private void Awake()
     {
         //Getter
         controller = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
+        lineRenderer = GetComponent<LineRenderer>();
+    }
+
+    private void Start()
+    {
+        currentState = MoveState;
+        
+        currentState.EnterState(this);
     }
 
     private void Update()
     {
+        currentState.UpdateState(this);
+
+        lineRenderer.enabled = grappled;
+
+        Debug.Log(move);
+        
         //Ground check
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+    }
 
-        //If grounded, stop falling. Otherwise add y velocity
-        if (isGrounded && velocity.y < 0)
-        {
-            velocity.y = -2f;
-        }
-
-        //Moving
-        var x = Input.GetAxisRaw("Horizontal");
-        var z = Input.GetAxisRaw("Vertical");
-
-        var movementVector = new Vector2(x, z).normalized;
-
-        //Makeshift deceleration solution. There must be a more efficient solution
-        if (x == 0f) //Decelerate if not moving X
-        {
-            velocityX *= 0.92f;
-        }
-        if (z == 0f) //Decelerate if not moving Z
-        {
-            velocityZ *= 0.92f;
-        }
-
-        //I decided to slightly rework how movement is calculated. Looks janky, but feels better
-        velocityX += movementVector.x * acceleration;
-        velocityZ += movementVector.y * acceleration;
-
-        velocityX = Mathf.Clamp(velocityX, -moveSpeed, moveSpeed);
-        velocityZ = Mathf.Clamp(velocityZ, -moveSpeed, moveSpeed);
-
-        var transform1 = transform;
-        move = transform1.right * velocityX + transform1.forward * velocityZ;
-
-        controller.Move(move * Time.deltaTime); //I'm a fucking god
-
-        //Jumping
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
-        }
-
-        //Gravity
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+    public void SwitchState(PlayerBaseState state)
+    {
+        currentState = state;
+        state.EnterState(this);
     }
 }

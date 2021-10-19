@@ -7,6 +7,8 @@ using TMPro;
 
 public class InteractManager : MonoBehaviour
 {
+    private PlayerMovementScript playerMovementScript;
+    
     public LayerMask layerMask;
 
     public GameObject useText;
@@ -24,6 +26,7 @@ public class InteractManager : MonoBehaviour
     private void Awake()
     {
         text = useText.GetComponent<TMP_Text>();
+        playerMovementScript = GetComponentInParent<PlayerMovementScript>();
         wrongKeyTimer = 0f;
     }
     
@@ -32,7 +35,6 @@ public class InteractManager : MonoBehaviour
         KeyRaycast();
         HookRaycast();
         
-
     }
 
     private void KeyRaycast()
@@ -42,7 +44,7 @@ public class InteractManager : MonoBehaviour
         //Raycast for the Use key (E)
         if (Physics.Raycast(transform.position, transform.forward, out var hit, 3f, layerMask))
         {
-            Debug.Log(hit.transform.name);
+            //Debug.Log(hit.transform.name);
             if (hit.transform.CompareTag("Cat")) //If you're looking at the cat, give the player an option to talk to him
             {
                 useText.SetActive(true);
@@ -69,7 +71,7 @@ public class InteractManager : MonoBehaviour
                         doorManager.Disintegrate();
                         break;
                     default:
-                        Debug.Log("YOU DON'T HAVE THE RIGHT KEY, FUCKER!");
+                        //Debug.Log("YOU DON'T HAVE THE RIGHT KEY, FUCKER!");
                         wrongKeyTimer = 2f;
                         break;
                 }
@@ -95,14 +97,24 @@ public class InteractManager : MonoBehaviour
 
     private void HookRaycast()
     {
+        if (Input.GetKeyDown(KeyCode.E) && playerMovementScript.grappled)
+            playerMovementScript.grappled = false;
+            
         if (Physics.Raycast(transform.position, transform.forward, out var hit, 20f, layerMask))
         {
-            Debug.Log(hit.transform.name);
+            //Debug.Log(hit.transform.name);
             
             if (hit.transform.CompareTag("Grapple")) //If you're looking at the grapple point, show the little crosshair UI thing
             {
                 useText.SetActive(true);
                 text.text = "E to Grapple";
+
+                if (Input.GetKeyDown(KeyCode.E) && !playerMovementScript.grappled)
+                {
+                    playerMovementScript.grappled = true;
+                    playerMovementScript.oRb = hit.rigidbody;
+                }
+                
 
 
             }
