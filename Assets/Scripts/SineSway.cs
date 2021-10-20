@@ -45,8 +45,8 @@ public class SineSway : MonoBehaviour
 
     void Update()
     {
-        //Finds the current movement speed to control when the weapon sways
-        currentSpeed = Mathf.Clamp(Mathf.Max(Mathf.Abs(playerMovementScript.move.x), Mathf.Abs(playerMovementScript.move.z)), 0f, 1f);
+        //Finds the current movement speed to control when the weapon sways. Player has to be grounded to sway
+        currentSpeed = playerMovementScript.isGrounded ? Mathf.Clamp(Mathf.Max(Mathf.Abs(playerMovementScript.move.x), Mathf.Abs(playerMovementScript.move.z)), 0f, 1f) : 0f;
 
         //Debug.Log(Mathf.Clamp(Mathf.Max(Mathf.Abs(playerMovementScript.move.x), Mathf.Abs(playerMovementScript.move.z)), 0f, 1f));
 

@@ -23,6 +23,7 @@ public class PlayerFlyState : PlayerBaseState
         
         isGrounded = player.isGrounded;
         velocityY = rb.velocity.y;
+        oRb = player.oRb;
         
         var points = new Vector3[2];
         points[0] = transform.position;
@@ -41,7 +42,7 @@ public class PlayerFlyState : PlayerBaseState
             player.move = new Vector3(player.move.x, 0, player.move.z);
         }
         
-        if(player.grappled && velocityY <= -9f)
+        if(player.grappled && velocityY <= -6f)
         {
             player.SwitchState(player.GrappleState);
         }

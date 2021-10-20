@@ -61,10 +61,11 @@ public class PlayerMoveState : PlayerBaseState
         if (player.grappled)
         {
             oRb = player.oRb;
-            if (velocity.y <= -9f)
+            if (velocity.y <= -6)
             {
                 collider.enabled = true;
                 controller.enabled = false;
+                rb.velocity = new Vector3(move.x, velocityY, move.z);
                 player.SwitchState(player.GrappleState);
             }
 

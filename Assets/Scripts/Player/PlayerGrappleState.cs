@@ -18,7 +18,6 @@ public class PlayerGrappleState : PlayerBaseState
         //RB Setup
         oRb = player.oRb;
         rb.isKinematic = false;
-        rb.velocity = new Vector3(player.move.x, player.velocity.y, player.move.z);
         player.move = new Vector3(0, 0, 0);
 
         var difference = transform.position - oRb.position;

@@ -8,6 +8,7 @@ using TMPro;
 public class InteractManager : MonoBehaviour
 {
     private PlayerMovementScript playerMovementScript;
+    public UIFunctions uiFunctions;
     
     public LayerMask layerMask;
 
@@ -53,7 +54,8 @@ public class InteractManager : MonoBehaviour
                 if (!Input.GetKeyDown(KeyCode.E)) return;
                 playerCamera.SetActive(false);
                 catCamera.SetActive(true);
-                playerUI.SetActive(false);
+                //playerUI.SetActive(false);
+                uiFunctions.LetterBoxing();
             }
             
             else if (hit.transform.CompareTag("Door")) //If you're looking at the door, give an option to open it
