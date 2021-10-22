@@ -1,14 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using Sirenix.OdinInspector;
 public class PlayerMovementScript : MonoBehaviour
 {
+    //This script and the script for all the other player states needs some serious re-organizing
     [HideInInspector]
     public CharacterController controller;
     [HideInInspector]
     public Vector3 move;
+
+    public Transform lineOrigin;
+    public SpringJoint joint;
 
     [HideInInspector] public CapsuleCollider capsuleCollider;
 
@@ -38,6 +43,11 @@ public class PlayerMovementScript : MonoBehaviour
     [HideInInspector]
     public Rigidbody oRb;
 
+    public Transform hook;
+    public Vector3 hookInitialPosition;
+    public Quaternion hookInitialRotation;
+    public Transform hand;
+
     PlayerBaseState currentState;
     public PlayerMoveState MoveState = new PlayerMoveState();
     public PlayerGrappleState GrappleState = new PlayerGrappleState();
@@ -54,6 +64,7 @@ public class PlayerMovementScript : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
         lineRenderer = GetComponent<LineRenderer>();
+        joint = GetComponent<SpringJoint>();
     }
 
     private void Start()
@@ -61,23 +72,48 @@ public class PlayerMovementScript : MonoBehaviour
         currentState = MoveState;
         
         currentState.EnterState(this);
+
+        hookInitialPosition = hook.localPosition;
+        hookInitialRotation = hook.localRotation;
     }
 
     private void Update()
     {
         currentState.UpdateState(this);
 
-        lineRenderer.enabled = grappled;
-
-        Debug.Log(move);
+        //Debug.Log(move);
         
         //Ground check
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        
+        
+    }
+
+    private void LateUpdate()
+    {
+        var points = new Vector3[2];
+        points[0] = lineOrigin.position;
+        points[1] = hook.position;
+        lineRenderer.SetPositions(points);
     }
 
     public void SwitchState(PlayerBaseState state)
     {
         currentState = state;
         state.EnterState(this);
+    }
+
+    public void ReturnHook()
+    {
+        joint.connectedBody = null;
+        joint.maxDistance = 9999f;
+        joint.spring = 0f;
+        joint.damper = 0f;
+        
+        grappled = false;
+        
+        hook.parent = hand;
+        hook.DOLocalMove(hookInitialPosition, 0.2f);
+        hook.localRotation = hookInitialRotation;
     }
 }

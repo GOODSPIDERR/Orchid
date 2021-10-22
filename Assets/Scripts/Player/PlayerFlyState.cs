@@ -4,16 +4,10 @@ public class PlayerFlyState : PlayerBaseState
 {
     private Rigidbody rb;
     private bool isGrounded;
-    private LineRenderer lineRenderer;
-    private Transform transform;
-    private Rigidbody oRb;
     private float velocityY;
     public override void EnterState(PlayerMovementScript player)
     {
         rb = player.rb;
-        oRb = player.oRb;
-        lineRenderer = player.lineRenderer;
-        transform = player.transform;
         velocityY = rb.velocity.y;
     }
     
@@ -23,13 +17,7 @@ public class PlayerFlyState : PlayerBaseState
         
         isGrounded = player.isGrounded;
         velocityY = rb.velocity.y;
-        oRb = player.oRb;
-        
-        var points = new Vector3[2];
-        points[0] = transform.position;
-        points[1] = oRb.position;
-        player.lineRenderer.SetPositions(points);
-        
+
         var horizontalInput = Input.GetAxisRaw("Horizontal");
         var verticalInput = Input.GetAxisRaw("Vertical");
 
@@ -42,7 +30,7 @@ public class PlayerFlyState : PlayerBaseState
             player.move = new Vector3(player.move.x, 0, player.move.z);
         }
         
-        if(player.grappled && velocityY <= -6f)
+        if(player.grappled && velocityY <= -4f)
         {
             player.SwitchState(player.GrappleState);
         }

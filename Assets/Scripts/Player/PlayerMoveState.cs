@@ -9,9 +9,6 @@ public class PlayerMoveState : PlayerBaseState
 
     private float gravity;
     private float jumpHeight;
-    private Transform groundCheck;
-    private float groundDistance;
-    private LayerMask groundMask;
     private float velocityX, velocityZ;
     private Vector3 velocity;
 
@@ -21,13 +18,10 @@ public class PlayerMoveState : PlayerBaseState
 
     private Transform playerTransform;
     private Rigidbody rb;
-    private Rigidbody oRb;
 
     private CapsuleCollider collider;
-
-    private LineRenderer lineRenderer;
-
-    private SpringJoint joint;
+    
+    
     public override void EnterState(PlayerMovementScript player)
     {
         moveSpeed = player.moveSpeed;
@@ -36,11 +30,8 @@ public class PlayerMoveState : PlayerBaseState
 
         gravity = player.gravity;
         jumpHeight = player.jumpHeight;
-        groundCheck = player.groundCheck;
-        groundDistance = player.groundDistance;
-        groundMask = player.groundMask;
 
-        
+
         playerTransform = player.transform;
         controller = player.controller;
 
@@ -51,17 +42,23 @@ public class PlayerMoveState : PlayerBaseState
         collider = player.capsuleCollider;
         collider.enabled = false;
         controller.enabled = true;
-
-        lineRenderer = player.lineRenderer;
-        joint = player.GetComponent<SpringJoint>();
     }
     
     public override void UpdateState(PlayerMovementScript player)
     {
         if (player.grappled)
         {
-            oRb = player.oRb;
-            if (velocity.y <= -6)
+            var difference = player.transform.position - player.oRb.position;
+            var mag = difference.magnitude;
+
+            Debug.Log(Vector3.Distance(player.transform.position, player.oRb.position));
+
+            if (Vector3.Distance(player.transform.position, player.oRb.position) > 23f)
+            {
+                player.ReturnHook();
+            }
+            
+            if (velocity.y <= -4f)
             {
                 collider.enabled = true;
                 controller.enabled = false;
@@ -74,22 +71,15 @@ public class PlayerMoveState : PlayerBaseState
                 rb.isKinematic = false;
                 controller.enabled = false;
                 collider.enabled = true;
-                joint.connectedBody = null;
-                joint.maxDistance = 9999f;
-                joint.spring = 0f;
-                joint.damper = 0f;
-                //rb.velocity = new Vector3(0, 0, 0);
-                rb.AddForce(Vector3.up * 12f + playerTransform.forward * 6f, ForceMode.VelocityChange);
                 
-                player.grappled = false;
+                rb.AddForce(Vector3.up * 12f + playerTransform.forward * 6f, ForceMode.VelocityChange);
+
+                player.ReturnHook();
                 player.SwitchState(player.FlyState);
                 
             }
-
-            var points = new Vector3[2];
-            points[0] = playerTransform.position;
-            points[1] = oRb.position;
-            player.lineRenderer.SetPositions(points);
+            
+            
 
         }
 

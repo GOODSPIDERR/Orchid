@@ -1,4 +1,5 @@
 using System.Diagnostics.Eventing.Reader;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerGrappleState : PlayerBaseState
@@ -7,7 +8,6 @@ public class PlayerGrappleState : PlayerBaseState
     private Rigidbody oRb;
     private SpringJoint joint;
     private Transform transform;
-    private LineRenderer lineRenderer;
     public override void EnterState(PlayerMovementScript player)
     {
         //Getters
@@ -31,24 +31,14 @@ public class PlayerGrappleState : PlayerBaseState
         joint.minDistance = 1f;
         joint.anchor = Vector3.up;
         joint.connectedAnchor = new Vector3(0, -mag/2, 0);
-
-        lineRenderer = player.lineRenderer;
-
-
-
-
+        
 
     }
     
     public override void UpdateState(PlayerMovementScript player)
     {
         player.move = new Vector3(0, 0, 0);
-        
-        var points = new Vector3[2];
-        points[0] = transform.position;
-        points[1] = oRb.position;
-        player.lineRenderer.SetPositions(points);
-        
+
         var horizontalInput = Input.GetAxisRaw("Horizontal");
         var verticalInput = Input.GetAxisRaw("Vertical");
 
@@ -62,24 +52,17 @@ public class PlayerGrappleState : PlayerBaseState
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            joint.connectedBody = null;
-            joint.maxDistance = 9999f;
-            joint.spring = 0f;
-            rb.velocity *= 2;
-            joint.damper = 0f;
-            player.grappled = false;
+            
+            player.ReturnHook();
             player.SwitchState(player.FlyState);
+
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            joint.connectedBody = null;
-            joint.maxDistance = 9999f;
-            joint.spring = 0f;
-            joint.damper = 0f;
-            //rb.velocity = new Vector3(rb.velocity.x*2, 0, rb.velocity.z*2);
             rb.AddForce(Vector3.up * 12f + transform.forward * 6f, ForceMode.VelocityChange);
-            player.grappled = false;
+            
+            player.ReturnHook();
             player.SwitchState(player.FlyState);
         }
     }

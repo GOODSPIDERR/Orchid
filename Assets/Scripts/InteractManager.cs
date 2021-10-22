@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class InteractManager : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class InteractManager : MonoBehaviour
     private TMP_Text text;
 
     private float wrongKeyTimer;
+
+    public Transform hook;
     
     [Header("Key Stuff")]
     public bool redKey;
@@ -100,7 +103,12 @@ public class InteractManager : MonoBehaviour
     private void HookRaycast()
     {
         if (Input.GetKeyDown(KeyCode.E) && playerMovementScript.grappled)
+        {
             playerMovementScript.grappled = false;
+            playerMovementScript.ReturnHook();
+        }
+            
+            
             
         if (Physics.Raycast(transform.position, transform.forward, out var hit, 20f, layerMask))
         {
@@ -115,6 +123,10 @@ public class InteractManager : MonoBehaviour
                 {
                     playerMovementScript.grappled = true;
                     playerMovementScript.oRb = hit.rigidbody;
+
+                    
+                    hook.parent = playerMovementScript.oRb.transform;
+                    hook.DOMove(playerMovementScript.oRb.position, 0.2f);
                 }
                 
 
