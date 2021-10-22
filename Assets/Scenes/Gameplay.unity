@@ -3287,19 +3287,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e0694c1ee2cd8ee4696a39eaf0e97353, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.80486053
+      value: 0.8048605
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e0694c1ee2cd8ee4696a39eaf0e97353, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.000000059604623
+      value: 0.00000005960462
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e0694c1ee2cd8ee4696a39eaf0e97353, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000029802312
+      value: -0.00000002980231
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e0694c1ee2cd8ee4696a39eaf0e97353, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.59346396
+      value: 0.593464
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e0694c1ee2cd8ee4696a39eaf0e97353, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3792,7 +3792,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1063274576}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 504c7ab5af39a6b419c20c367304df7a, type: 3}
   m_Name: 
@@ -3822,6 +3822,37 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!95 &1063274579
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063274576}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b7064620f8d8f9648969aeca3837ba95, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1063274580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063274576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5080f39e0800e6d40ad150231a46000b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1079064273
 GameObject:
   m_ObjectHideFlags: 0
